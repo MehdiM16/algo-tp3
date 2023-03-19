@@ -42,6 +42,8 @@ for j in range(nbObjetsMax):
 	tabObjets.sort(key=lambda article : article[0]/article[1], reverse=True)
     
 	#Etude de vitesse d'exécution, de précision des résultats et de mémoire utilisée
+	
+	#Etude avec BorneInf()
 	tracemalloc.start()
 	start = time.perf_counter()
 	u, v = calculSac(borneInf(tabObjets, pMaxTests))
@@ -51,6 +53,7 @@ for j in range(nbObjetsMax):
 	memBorneInf.append(q)
 	tmpsBorneInf.append(end - start)
 	
+	#Etude avec Séparation et Evaluation()
 	tracemalloc.start()
 	start = time.perf_counter()
 	v, w = meilleurSac(StopSkipBoundBranch(tabObjets, pMaxTests, []))
@@ -60,6 +63,7 @@ for j in range(nbObjetsMax):
 	tmpsSepEval.append(end - start)
 	methSepEval.append(v)
 	
+	#Etude avec Programmation Dynamique
 	tracemalloc.start()
 	start = time.perf_counter()
 	methDynam.append(sac_a_dos_2(tabObjets, pMaxTests))
@@ -68,7 +72,7 @@ for j in range(nbObjetsMax):
 	memDynam.append(q)
 	tmpsDynam.append(end - start)
 	
-	
+	#Etude avec Programmation Dynamique avec Changement d'Echelle
 	tracemalloc.start()
 	start = time.perf_counter()
 	methDynamEch.append(sac_a_dos_3(tabObjets, pMaxTests, 50))
