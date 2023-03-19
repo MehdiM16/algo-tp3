@@ -1,44 +1,69 @@
 import random
 import time
 import numpy as np
-import matplotlib as plt
+import matplotlib.pyplot as plt
 from probleme1 import *
 from probleme1_dynamique import *
 
-nbObjetsMax = 20
+nbObjetsMax = 9
 poidsMax = 100
 pMaxTests = 400
 valMax = 900
 tabObjets = []
 
-# def sortFunc(a, b):
-	# va, wa = a
-    # vb, wb = b
+methBorneInf = []
+methSepEval = []
+methDynam = []
+methDynamEch = []
+
+tmpsBorneInf = []
+tmpsSepEval = []
+tmpsDynam = []
+tmpsDynamEch = []
+
+start = 0
+end = 0
+x = np.linspace(0, nbObjetsMax, nbObjetsMax)
+
+#On effectue nbObjetsMax tests
+for j in range(nbObjetsMax):
+	for i in range(j):
+		tabObjets.append((random.randint(0, valMax), random.randint(0, poidsMax)))
+    
+	tabObjets.sort(key=lambda article : article[0]/article[1], reverse=True)
+    
+	#Etude de vitesse d'exécution et de précision des résultats
+	start = time.perf_counter()
+	methDynam.append(sac_a_dos_2(tabObjets, pMaxTests))
+	end = time.perf_counter()
+	tmpsDynam.append(end - start)
 	
-	# return va/wa
-
-for i in range(nbObjetsMax):
-	tabObjets.append((random.randint(0, valMax), random.randint(0, poidsMax)))
-    
-tabObjets.sort(key=lambda article : article[0]/article[1], reverse=True)
-# print(calculSac(borneSup(tabObjets, pMaxTests)))
-##print
-# for i in tabObjets:
-	# print(i)
-    
-#Etude de vitesse d'exécution
-for i in nbObjetsMax
-print("################ Début de tests avec programmation dynamique. ##############")
-print("Valeur finale : " + str(sac_a_dos_2(tabObjets, pMaxTests)))
-print("################ Fin de tests avec programmation dynamique. ##############")
-
-print("################ Début de tests de séparation et évaluation. ##############")
-s = StopSkipBoundBranch(tabObjets, pMaxTests, [])
-# for j in s:
-	# print(calculSac(j))
-print("Sac final : " + str(meilleurSac(s)))
-print("################ Fin de tests de séparation et évaluation. ##############")
+	
+	start = time.perf_counter()
+	v, w = meilleurSac(StopSkipBoundBranch(tabObjets, pMaxTests, []))
+	end = time.perf_counter()
+	tmpsSepEval.append(end - start)
+	methSepEval.append(v)
+	
+	start = time.perf_counter()
+	methDynamEch.append(sac_a_dos_3(tabObjets, pMaxTests, 1))
+	end = time.perf_counter()
+	tmpsDynamEch.append(end - start)
 
 #Etude de consommation de mémoire
 
-#Etude de précision
+#Tracé des graphes
+fig, (ax1, ax2) = plt.subplots(2)
+ax1.plot(x, tmpsSepEval, label="Sepa_Eval", marker='o')
+ax1.plot(x, tmpsDynam, label="Dynamique", marker='o')
+ax1.plot(x, tmpsDynamEch, label="Dynamique_Ch_Echelle", marker='o')
+ax2.plot(x, methSepEval, label="Sepa_Eval", marker='_')
+ax2.plot(x, methDynam, label="Dynamique", marker='_')
+ax2.plot(x, methDynamEch, label="Dynamique_Ch_Echelle", marker='_')
+plt.legend()
+ax1.set_xlabel("Nombre d'objets")
+ax1.set_ylabel("Secondes")
+
+ax2.set_xlabel("Nombre d'objets")
+ax2.set_ylabel("Résultat")
+plt.show()

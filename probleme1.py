@@ -105,6 +105,8 @@ def StopSkipBoundBranch(t, b, sacInit):
 	return sacsPossibles
 
 def meilleurSac(sacsPossibles):
+	if len(sacsPossibles) == 0:
+		return (0, 0)
 	max = calculSac(sacsPossibles[0])
 	vm, wm = max
 	for i in sacsPossibles[1:]:
