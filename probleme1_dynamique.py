@@ -17,7 +17,7 @@ def sac_a_dos(objet,poids_max) :
     return T[-1][-1]
 
 
-def sac_a_dos_2(objet,poids_max) :
+def sac_a_dos_2(objet, poids_max) :
     #avec economie de memoire
     n = len(objet)
     m = poids_max
@@ -26,7 +26,7 @@ def sac_a_dos_2(objet,poids_max) :
         x,y = objet[i]
         for j in range(m,y,-1) :
             T[j] = max(x + T[j-y],T[j])
-    print(T)
+    #print(T)
     return T[-1]
 
 
@@ -39,12 +39,12 @@ def sac_a_dos_3(objet, poids_max, mu) : # changement d'echelle
     return res * mu
     
     
-tmp = [(5,2),(22,8),(8,3),(5,4)]
-b = 12
-tmp2 = [(25,2),(20,2),(10,3 )]
-b2 = 5
-print(sac_a_dos(tmp,b))
-print("")
-print(sac_a_dos_2(tmp,b))
-print("")
-print(sac_a_dos_3(tmp,b,4))
+# tmp = [(5,2),(22,8),(8,3),(5,4)]
+# b = 12
+# tmp2 = [(25,2),(20,2),(10,3 )]
+# b2 = 5
+# print(sac_a_dos(tmp,b))
+# print("")
+# print(sac_a_dos_2(tmp,b))
+# print("")
+# print(sac_a_dos_3(tmp,b,4))

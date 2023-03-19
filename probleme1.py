@@ -46,48 +46,71 @@ def calculSac(sac):
 def StopSkipBoundBranch(t, b, sacInit):
 	sacInf, sacSup = borneInfSup(t, b)
 	L = calculSac(sacInf)
+	vL, wL = L
 	U = calculSac(sacSup)
+	vU, wU = U
 	sacsPossibles = [] #répertorie toutes les solutions possibles
 	poids = 0
 	sac = sacInit #sac de tuples
-	u = (0, 0)
+	#u = (0, 0)
+	if len(sac) > 0:
+		u = calculSac(sac)
+	else:
+		u = (0, 0)
+	mem = u
+	if len(t) == 0:
+		return []
 	for i in range(len(t)):
-		print(t[i])
+		#print(t[i])
+		u = mem
 		v, w = t[i]
 		y, z = u
+		mem = u #mem permet de garder l'état de u en mémoire avant de rajouter l'objet
 		u = (y+v, z+w)
-		#if w + poids <= b:
-			#sac.append(t[i])
-			#poids+= w
-			
+		vu, wu = u
 		#STOP:
-		if U == u:
-			print("STOP")
+		if wu == wU and vu == vU:
+			#print("STOP")
 			L = u
+			vL, wL = L
 			sac.append(t[i])
 			sacsPossibles.append(sac)
 			break #On a une solution optimale, on sort donc de la boucle
 		#SKIP
-		elif u <= L:
-			print("SKIP")
+		elif vu <= vL and wu < b:
+			#print("SKIP")
 			sac.append(t[i])
-			if u == L:
+			mem = u
+			if vu == vL:
 				sacsPossibles.append(sac)
 			#on itère
+            
 		#BOUND
-		elif u > L and u < U:
+		elif vu > vL and wu < b:
 			#on met à jour la borne inf et on itère
-			print("BOUND")
+			#print("BOUND")
 			L = u
+			vL, wL = L
+			mem = u
 			sac.append(t[i])
 			sacsPossibles.append(sac)
 			
 		#BRANCH
 		else:
-			print("BRANCH")
-			va, po = calculSac(sac)
-			sacsPossibles+= StopSkipBoundBranch(t[i + 1:], b - po, sac)
+			#print("BRANCH")
+			cpy = t[:i:]
+			sacsPossibles+= StopSkipBoundBranch(cpy, b, [])
+			#sacsPossibles+= StopSkipBoundBranch(t[i+1:], b, sac)
 			
 	return sacsPossibles
 
+def meilleurSac(sacsPossibles):
+	max = calculSac(sacsPossibles[0])
+	vm, wm = max
+	for i in sacsPossibles[1:]:
+		vi, wi = calculSac(i)
+		if vi >= vm:
+			max = calculSac(i)
+	return max
+    
 #TODO proposer une version qui gère une pile pour éviter les problèmes de récursion avec Python
