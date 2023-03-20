@@ -1,4 +1,4 @@
-import Grille
+from Grille import *
 import Random
 
 """
@@ -40,4 +40,30 @@ def is_solution(n, res, clients) : # res = [(ik,jk) * n+2 fois] avec 1er et dern
 """
 
 #PROGRAMMATION DYNAMIQUE
+
+
+
+def probleme2_dynamique(n) :
+    gr = Grille(n)
+    T = [[0 for _ in range(n+1)] for _ in range(n+1)]
+    for i in range(n) : # l'indice 0 sera reserver au centre de distribution
+        T[0][i+1] = gr.distance_centre(gr.client[i],gr.centre_distrib)
+        T[i+1][0] = T[0][i+1]
+        #on stocke tout en double pour dimuer le nombre de parcours de tableau ensuite
+
+    for i in range(n) : 
+        for j in range(i+1,n) :
+            T[i+1][j+1] = gr.distance(gr.client[i],gr.client[j])
+            T[j+1][i+1] = T[i+1][j+1]
+    #toute les distances entres clients et entre clients et centre de distribution sont maintenant calculer 
+
+    res = [0] # res = chemin parcourus
+    longueur = 0 # longueur = longueur du chemin parcourue
+    prec = 0
+    while len(res) < n+1 :
+        mini = min(T[res[-1]])
+        ind_mini = T[res[-1]].index(mini) # on recupere l'index de la plus petite valeur  (potentiellement tres couteux je ne sais pas car peut etre plusieur parcours de tableau)
+        # A FINIR (ajouter ind_mini a res et mini a longueur et reflechir a une autre methode potentiellement moins couteuse) 
+        
+
 
