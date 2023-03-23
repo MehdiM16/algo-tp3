@@ -1,5 +1,6 @@
 from Grille import *
-import Random
+import random
+import sys
 
 """
 def initialisation(n) :
@@ -45,7 +46,13 @@ def is_solution(n, res, clients) : # res = [(ik,jk) * n+2 fois] avec 1er et dern
 
 def probleme2_dynamique(n) :
     gr = Grille(n)
-    T = [[0 for _ in range(n+1)] for _ in range(n+1)]
+    T = [[sys.maxsize for _ in range(n+1)] for _ in range(n+1)]
+
+    """
+        Essayer avec None aussi a la place de sys.maxsize pour voir si plus rapide et ne pas oublier de check si la valeur n'est pas None dans la boucle while..for
+
+    """
+
     for i in range(n) : # l'indice 0 sera reserver au centre de distribution
         T[0][i+1] = gr.distance_centre(gr.client[i],gr.centre_distrib)
         T[i+1][0] = T[0][i+1]
@@ -59,11 +66,29 @@ def probleme2_dynamique(n) :
 
     res = [0] # res = chemin parcourus
     longueur = 0 # longueur = longueur du chemin parcourue
-    prec = 0
+
+    print(T)
+
     while len(res) < n+1 :
-        mini = min(T[res[-1]])
-        ind_mini = T[res[-1]].index(mini) # on recupere l'index de la plus petite valeur  (potentiellement tres couteux je ne sais pas car peut etre plusieur parcours de tableau)
-        # A FINIR (ajouter ind_mini a res et mini a longueur et reflechir a une autre methode potentiellement moins couteuse) 
         
+        mini = sys.maxsize
+        ind_mini = 0
+
+        for i in range(len(T[res[-1]])) : # on parcours le tableau des distance a partir du dernier point du chemin
+            if T[res[-1]][i] < mini and i not in res :
+                mini = T[res[-1]][i]
+                ind_mini = i
+        
+        res.append(ind_mini)
+        longueur += mini
+    
+    # on a maintenant parcourus tout les client
+    # il nous reste a ajouter le retour au centre de distribution
+    longueur += T[res[-1]][0]
+    res.append(0)
+    print(res)
+
+    return longueur
 
 
+print(probleme2_dynamique(3))
