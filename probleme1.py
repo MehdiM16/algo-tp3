@@ -1,3 +1,5 @@
+import time
+
 #1)Bornes sup et inf
 def borneSup(t, b):
 	poids = 0
@@ -43,7 +45,10 @@ def calculSac(sac):
 	
 #2)Séparation et évaluation: STOP, SKIP, BOUND, BRANCH
 
-def StopSkipBoundBranch(t, b, sacInit):
+def StopSkipBoundBranch(t, b, sacInit, timer):
+	#On arrête les calculs si on dépasse la limite de temps (15 secondes)
+	if time.time() - timer > 15:
+		return []
 	sacInf, sacSup = borneInfSup(t, b)
 	L = calculSac(sacInf)
 	vL, wL = L
@@ -99,7 +104,7 @@ def StopSkipBoundBranch(t, b, sacInit):
 		else:
 			#print("BRANCH")
 			cpy = t[:i:]
-			sacsPossibles+= StopSkipBoundBranch(cpy, b, [])
+			sacsPossibles+= StopSkipBoundBranch(cpy, b, [], timer)
 			#sacsPossibles+= StopSkipBoundBranch(t[i+1:], b, sac)
 			
 	return sacsPossibles
