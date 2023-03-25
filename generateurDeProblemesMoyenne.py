@@ -9,7 +9,7 @@ import math
 
 nbObjetsMax = int(input("Nombre maximum d'objets : "))
 poidsMax = 100
-pMaxTests = 400
+pMaxTests = int(input("Poids maximum d'un sac : "))
 valMax = 900
 tabObjets = []
 
