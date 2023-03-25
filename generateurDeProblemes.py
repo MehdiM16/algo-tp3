@@ -90,17 +90,17 @@ for j in range(nbObjetsMax):
 
 #Tracé des graphes
 fig, (ax1, ax2, ax3, histo) = plt.subplots(4)
-ax1.plot(x, tmpsSepEval, label="Sepa_Eval", color="blue", marker="o")
+ax1.plot(x, tmpsSepEval, label="Sepa_Eval", color="blue", marker="x")
 ax1.plot(x, tmpsDynam, label="Dynamique", color="green", marker="+")
 ax1.plot(x, tmpsDynamEch, label="Dynamique_Ch_Echelle", color="red", marker=".")
 ax1.plot(x, tmpsBorneInf, label="Borne inférieure", color="orange", marker="*")
 
-ax2.plot(x, methSepEval, label="Sepa_Eval", color="blue", marker="o")
+ax2.plot(x, methSepEval, label="Sepa_Eval", color="blue", marker="x")
 ax2.plot(x, methDynam, label="Dynamique", color="green", marker="+")
 ax2.plot(x, methDynamEch, label="Dynamique_Ch_Echelle", color="red", marker=".")
 ax2.plot(x, methBorneInf, label="Borne inférieure", color="orange", marker="*")
 
-ax3.plot(x, memSepEval, label="Sepa_Eval", color="blue", marker="o")
+ax3.plot(x, memSepEval, label="Sepa_Eval", color="blue", marker="x")
 ax3.plot(x, memDynam, label="Dynamique", color="green", marker="+")
 ax3.plot(x, memDynamEch, label="Dynamique_Ch_Echelle", color="red", marker=".")
 ax3.plot(x, memBorneInf, label="Borne inférieure", color="orange", marker="*")
