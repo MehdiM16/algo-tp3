@@ -61,7 +61,7 @@ for j in range(nbObjetsMax):
 	#Etude avec Séparation et Evaluation()
 	tracemalloc.start()
 	start = time.perf_counter()
-	v, w = meilleurSac(StopSkipBoundBranch(tabObjets, pMaxTests, []))
+	v, w = meilleurSac(StopSkipBoundBranch(tabObjets, pMaxTests, [], time.time()))
 	end = time.perf_counter()
 	p, q = tracemalloc.get_traced_memory()
 	memSepEval.append(q)
