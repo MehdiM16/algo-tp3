@@ -116,3 +116,31 @@ def meilleurSac(sacsPossibles):
 	return max
     
 #TODO proposer une version qui gère une pile pour éviter les problèmes de récursion avec Python
+
+
+
+# 3) Programmation dynamique
+
+def prog_dynamique(objet, poids_max) :
+    n = len(objet)
+    m = poids_max
+    T = [0 for _ in range(m + 1)]
+    for i in range(n) :
+        x,y = objet[i]
+        for j in range(m,y,-1) :
+            T[j] = max(x + T[j-y],T[j])
+    #print(T)
+    return T[-1]
+
+
+
+
+# 4) Programmation dynamique avec changement d'echelle
+
+
+def change_echelle(objet, poids_max, mu) : # changement d'echelle
+    nvobj = []
+    for i in range(len(objet)) :
+        nvobj.append((objet[i][0] // mu, objet[i][1]))
+    res = prog_dynamique(nvobj, poids_max)
+    return res * mu

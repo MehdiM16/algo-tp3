@@ -4,7 +4,7 @@ import tracemalloc
 import numpy as np
 import matplotlib.pyplot as plt
 from probleme1 import *
-from probleme1_dynamique import *
+#from probleme1_dynamique import *
 
 nbObjetsMax = 9
 poidsMax = 100
@@ -66,7 +66,7 @@ for j in range(nbObjetsMax):
 	#Etude avec Programmation Dynamique
 	tracemalloc.start()
 	start = time.perf_counter()
-	methDynam.append(sac_a_dos_2(tabObjets, pMaxTests))
+	methDynam.append(prog_dynamique(tabObjets, pMaxTests))
 	end = time.perf_counter()
 	p, q = tracemalloc.get_traced_memory()
 	memDynam.append(q)
@@ -75,7 +75,7 @@ for j in range(nbObjetsMax):
 	#Etude avec Programmation Dynamique avec Changement d'Echelle
 	tracemalloc.start()
 	start = time.perf_counter()
-	methDynamEch.append(sac_a_dos_3(tabObjets, pMaxTests, 50))
+	methDynamEch.append(change_echelle(tabObjets, pMaxTests, 50))
 	end = time.perf_counter()
 	p, q = tracemalloc.get_traced_memory()
 	memDynamEch.append(q)
