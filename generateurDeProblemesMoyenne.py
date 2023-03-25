@@ -4,6 +4,7 @@ import tracemalloc
 import numpy as np
 import matplotlib.pyplot as plt
 from probleme1 import *
+import math
 #from probleme1_dynamique import *
 
 nbObjetsMax = int(input("Nombre maximum d'objets : "))
@@ -34,12 +35,18 @@ end = 0
 memstart = 0
 memend = 0
 
+muv = int(input("muv : "))
+sigmav = int(input("sigmav : "))
+muw = int(input("muw (>= 1): "))
+sigmaw = int(input("sigmaw : "))
+
+
 x = np.linspace(0, nbObjetsMax, nbObjetsMax)
 
 #On effectue nbObjetsMax tests
 for j in range(nbObjetsMax):
-	y = random.randint(0, valMax)
-	z = random.randint(1, poidsMax)
+	y = math.ceil(random.gauss(muv, sigmav))
+	z = math.ceil(random.gauss(muw, sigmaw))
 	tabObjets.append((y, z))
 	ratioValues.append(y/z)
     
