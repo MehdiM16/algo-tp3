@@ -4,6 +4,7 @@ class Sommet :
         self.posx = i
         self.posy = j
         self.reference = ref
+        self.id = ref
 
     
     def __str__(self) -> str:

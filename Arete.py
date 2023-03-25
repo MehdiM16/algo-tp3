@@ -16,3 +16,10 @@ class Arete :
 
     def distance_sommet(self,c1,c2) : # ci = Client
         return abs(c2.posx-c1.posx) + abs(c2.posy-c1.posy) 
+    
+
+    def est_centre_distrib(self) :
+        if self.client1.reference == 0 or self.client2.reference == 0 :
+            return True 
+        else :
+            return False

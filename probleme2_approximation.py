@@ -28,7 +28,7 @@ def initialisation(n) :
 
 
 
-def kruskal(arete) : 
+def kruskal(arete,n) : 
     arete.sort(key=lambda article : article.distance)
     len_ar = len(arete)
     res = []
@@ -36,7 +36,7 @@ def kruskal(arete) :
     for i in range(len_ar) :
         s1_ref = arete[i].client1.reference
         s2_ref = arete[i].client2.reference
-        if s1_ref != s2_ref :
+        if (s1_ref != s2_ref) and not arete[i].est_centre_distrib() :
             for j in range(len_ar) :
                 if arete[j].client1.reference == s2_ref :
                     arete[j].client1.reference = s1_ref
@@ -45,16 +45,42 @@ def kruskal(arete) :
             res.append(arete[i])
             longueur += arete[i].distance
 
+    # on a l'arbre couvrant minimum entre les clients
+    # maintenant on relie le centre de distribution a chaque extremiter ce cette arbre
+
+    for i in range(1,n+1) :
+        if nb_iteration(res,i) == 1:
+            chemin = find_arete(arete,0,i)
+            if chemin is not None :
+                res.append(chemin) # au debut les arete sont stocker dans  l'ordre 0 -> 1 , 0 -> 2 etc
+                longueur += chemin.distance
+
     return longueur,res
 
 
+def find_arete(aretes,a,b) :
+    for elt in aretes :
+        if (elt.client1.id == a and elt.client2.id == b) or (elt.client1.id == b and elt.client2.id == a) :
+            return elt
+    return None
 
-ar = initialisation(3)
+
+def nb_iteration(aretes, sommet) :
+    res = 0
+    for elt in aretes :
+        if elt.client1.id == sommet or elt.client2.id == sommet :
+            res += 1
+    return res
+
+
+n = 4
+ar = initialisation(n)
+
 
 for elt in ar :
     print(str(elt))
 
-x,y = kruskal(ar)
+x,y = kruskal(ar,n)
 
 print("---------------------------- \n longueur du plus cours chemin = " + str(x))
 
