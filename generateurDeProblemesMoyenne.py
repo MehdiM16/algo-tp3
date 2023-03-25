@@ -51,6 +51,7 @@ for j in range(nbObjetsMax):
 	ratioValues.append(y/z)
     
 	tabObjets.sort(key=lambda article : article[0]/article[1], reverse=True)
+	print("Generating problem with " + str(j) + " objects...");
     
 	#Etude de vitesse d'exécution, de précision des résultats et de mémoire utilisée
 	
