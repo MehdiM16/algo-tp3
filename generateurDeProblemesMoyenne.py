@@ -96,7 +96,7 @@ for j in range(nbObjetsMax):
 #Etude de consommation de mémoire
 
 #Tracé des graphes
-fig, (ax1, ax2, ax3, histo) = plt.subplots(4)
+fig, (ax1, ax2, ax3) = plt.subplots(3)
 ax1.plot(x, tmpsSepEval, label="Sepa_Eval", color="blue", marker="x")
 ax1.plot(x, tmpsDynam, label="Dynamique", color="green", marker="+")
 ax1.plot(x, tmpsDynamEch, label="Dynamique_Ch_Echelle", color="red", marker=".")
@@ -122,10 +122,10 @@ ax2.set_ylabel("Résultat")
 ax3.set_xlabel("Nombre d'objets")
 ax3.set_ylabel("Peak Memory Usage")
 
-histo.set_xlabel("Nombre d'objets")
-histo.set_ylabel("Ratios")
+#histo.set_xlabel("Nombre d'objets")
+#histo.set_ylabel("Ratios")
 
-counts, bins = np.histogram(ratioValues)
-histo.stairs(counts, bins)
+#counts, bins = np.histogram(ratioValues)
+#histo.stairs(counts, bins)
 
 plt.show()
