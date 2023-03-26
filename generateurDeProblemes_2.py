@@ -90,17 +90,17 @@ for j in range(nbClientMax):
 fig, (ax1, ax2, ax3) = plt.subplots(3)
 #ax1.plot(x, tmpsSepEval, label="Sepa_Eval", color="blue", marker="x")
 ax1.plot(x, tmpsDynam, label="Dynamique", color="green", marker="+")
-#ax1.plot(x, tmpsDynamEch, label="Dynamique_Ch_Echelle", color="red", marker=".")
+ax1.plot(x, tmpsOptiLin, label="Optimisation_Lineaire", color="red", marker=".")
 ax1.plot(x, tmpsApproximation, label="Approximation", color="orange", marker="*")
 
 #ax2.plot(x, methSepEval, label="Sepa_Eval", color="blue", marker="x")
 ax2.plot(x, methDynam, label="Dynamique", color="green", marker="+")
-#ax2.plot(x, methDynamEch, label="Dynamique_Ch_Echelle", color="red", marker=".")
+ax2.plot(x, methOptiLin, label="Optimisation_Lineaire", color="red", marker=".")
 ax2.plot(x, methApproximation, label="Approximation", color="orange", marker="*")
 
 #ax3.plot(x, memSepEval, label="Sepa_Eval", color="blue", marker="x")
 ax3.plot(x, memDynam, label="Dynamique", color="green", marker="+")
-#ax3.plot(x, memDynamEch, label="Dynamique_Ch_Echelle", color="red", marker=".")
+ax3.plot(x, memOptiLin, label="Optimisation_Lineaire", color="red", marker=".")
 ax3.plot(x, memApproximation, label="Approximation", color="orange", marker="*")
 
 ax1.set_xlabel("Nombre d'objets")
