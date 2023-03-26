@@ -5,7 +5,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 from probleme2_approximation import *
 from probleme2_dynamique import *
-from probleme2_optiLineraire import *
+from probleme2_optiLineraire import optiNbrInt, optiLinDist
 
 nbClientMax = int(input("Nombre maximum de clients : "))
 poidsMax = 100
@@ -54,10 +54,10 @@ for j in range(nbClientMax):
 	tracemalloc.start()
 	start = time.perf_counter()
 	noeuds = []
-	a, b = optiNbrInt(n2)
 	for z in range(nbClientMax):
 		noeuds.append((randint(0, 100), randint(0, 100)))
-	methOptiLin.append(optiLinDist(noeuds))
+	a, b = optiNbrInt(noeuds)
+	methOptiLin.append(optiLinDist(b))
 	end = time.perf_counter()
 	p, q = tracemalloc.get_traced_memory()
 	memOptiLin.append(q)
