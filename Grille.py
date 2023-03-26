@@ -18,13 +18,15 @@ class Grille :
         a = (n*n)//2
         self.centre_distrib = (a,a)
         self.grille[a][a] = 1 # 1 correspond au centre de distribution
+        print(self.centre_distrib)
         while(cpt < n) :
-            i = randint(0,n-1)
-            j = randint(0,n-1)
+            i = randint(0,(n*n)-1)
+            j = randint(0,(n*n)-1)
             if (self.grille[i][j] == 0) :
                 self.grille[i][j] = 2 # T[i][j] = 2 signifie qu'il y a un client à cet endroit
                 cpt += 1
                 self.client.append(Client(i,j))
+        self.client.append(Client(a,a)) # on rajoute un client fictif sur l'emplacement du centre de distribution pour pouvoir faire kruskal
 
 
 

@@ -28,7 +28,8 @@ def initialisation(n) :
 
 
 
-def kruskal(arete,n) : 
+def kruskal(n) : 
+    arete = initialisation(n)
     arete.sort(key=lambda article : article.distance)
     len_ar = len(arete)
     res = []
@@ -73,19 +74,12 @@ def nb_iteration(aretes, sommet) :
     return res
 
 
-n = 4
-ar = initialisation(n)
+
+x,y = kruskal(4)
 
 
-for elt in ar :
-    print(str(elt))
-
-x,y = kruskal(ar,n)
-
-print("---------------------------- \n longueur du plus cours chemin = " + str(x))
+print("Approximation\n longueur du plus cours chemin = " + str(x))
 
 for elt in y :
     print(str(elt))
-
-
 

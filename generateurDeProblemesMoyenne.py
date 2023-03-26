@@ -47,51 +47,52 @@ x = np.linspace(0, nbObjetsMax, nbObjetsMax)
 for j in range(nbObjetsMax):
 	y = math.ceil(random.gauss(muv, sigmav))
 	z = math.ceil(random.gauss(muw, sigmaw)) + 1
-	tabObjets.append((y, z))
-	ratioValues.append(y/z)
-    
-	tabObjets.sort(key=lambda article : article[0]/article[1], reverse=True)
-	print("Generating problem with " + str(j) + " objects...");
-    
-	#Etude de vitesse d'exécution, de précision des résultats et de mémoire utilisée
-	
-	#Etude avec BorneInf()
-	tracemalloc.start()
-	start = time.perf_counter()
-	u, v = calculSac(borneInf(tabObjets, pMaxTests))
-	methBorneInf.append(u)
-	end = time.perf_counter()
-	p, q = tracemalloc.get_traced_memory()
-	memBorneInf.append(q)
-	tmpsBorneInf.append(end - start)
-	
-	#Etude avec Séparation et Evaluation()
-	tracemalloc.start()
-	start = time.perf_counter()
-	v, w = meilleurSac(StopSkipBoundBranch(tabObjets, pMaxTests, [], time.time()))
-	end = time.perf_counter()
-	p, q = tracemalloc.get_traced_memory()
-	memSepEval.append(q)
-	tmpsSepEval.append(end - start)
-	methSepEval.append(v)
-	
-	#Etude avec Programmation Dynamique
-	tracemalloc.start()
-	start = time.perf_counter()
-	methDynam.append(prog_dynamique(tabObjets, pMaxTests))
-	end = time.perf_counter()
-	p, q = tracemalloc.get_traced_memory()
-	memDynam.append(q)
-	tmpsDynam.append(end - start)
-	
-	#Etude avec Programmation Dynamique avec Changement d'Echelle
-	tracemalloc.start()
-	start = time.perf_counter()
-	methDynamEch.append(change_echelle(tabObjets, pMaxTests, 50))
-	end = time.perf_counter()
-	p, q = tracemalloc.get_traced_memory()
-	memDynamEch.append(q)
-	tmpsDynamEch.append(end - start)
+	if z > 0 :
+		tabObjets.append((y, z))
+		ratioValues.append(y/z)
+		
+		tabObjets.sort(key=lambda article : article[0]/article[1], reverse=True)
+		print("Generating problem with " + str(j) + " objects...");
+		
+		#Etude de vitesse d'exécution, de précision des résultats et de mémoire utilisée
+		
+		#Etude avec BorneInf()
+		tracemalloc.start()
+		start = time.perf_counter()
+		u, v = calculSac(borneInf(tabObjets, pMaxTests))
+		methBorneInf.append(u)
+		end = time.perf_counter()
+		p, q = tracemalloc.get_traced_memory()
+		memBorneInf.append(q)
+		tmpsBorneInf.append(end - start)
+		
+		#Etude avec Séparation et Evaluation()
+		tracemalloc.start()
+		start = time.perf_counter()
+		v, w = meilleurSac(StopSkipBoundBranch(tabObjets, pMaxTests, [], time.time()))
+		end = time.perf_counter()
+		p, q = tracemalloc.get_traced_memory()
+		memSepEval.append(q)
+		tmpsSepEval.append(end - start)
+		methSepEval.append(v)
+		
+		#Etude avec Programmation Dynamique
+		tracemalloc.start()
+		start = time.perf_counter()
+		methDynam.append(prog_dynamique(tabObjets, pMaxTests))
+		end = time.perf_counter()
+		p, q = tracemalloc.get_traced_memory()
+		memDynam.append(q)
+		tmpsDynam.append(end - start)
+		
+		#Etude avec Programmation Dynamique avec Changement d'Echelle
+		tracemalloc.start()
+		start = time.perf_counter()
+		methDynamEch.append(change_echelle(tabObjets, pMaxTests, 50))
+		end = time.perf_counter()
+		p, q = tracemalloc.get_traced_memory()
+		memDynamEch.append(q)
+		tmpsDynamEch.append(end - start)
 
 #Etude de consommation de mémoire
 
