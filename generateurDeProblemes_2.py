@@ -5,22 +5,23 @@ import numpy as np
 import matplotlib.pyplot as plt
 from probleme2_approximation import *
 from probleme2_dynamique import *
+from probleme2_optiLineraire import *
 
 nbClientMax = int(input("Nombre maximum de clients : "))
 poidsMax = 100
 
 methApproximation = []
-methSepEval = []
+methOptiLin = []
 methDynam = []
 methDynamEch = []
 
 tmpsApproximation = []
-tmpsSepEval = []
+tmpsOptiLin = []
 tmpsDynam = []
 tmpsDynamEch = []
 
 memApproximation = []
-memSepEval = []
+memOptiLin = []
 memDynam = []
 memDynamEch = []
 
@@ -49,17 +50,18 @@ for j in range(nbClientMax):
 	memApproximation.append(q)
 	tmpsApproximation.append(end - start)
 	
-	"""
-	#Etude avec Séparation et Evaluation()
+	#Etude avec optimisation linéaire
 	tracemalloc.start()
 	start = time.perf_counter()
-	v, w = meilleurSac(StopSkipBoundBranch(tabObjets, pMaxTests, [], time.time()))
+	noeuds = []
+	a, b = optiNbrInt(n2)
+	for z in range(nbClientMax):
+		noeuds.append((randint(0, 100), randint(0, 100)))
+	methOptiLin.append(optiLinDist(noeuds))
 	end = time.perf_counter()
 	p, q = tracemalloc.get_traced_memory()
-	memSepEval.append(q)
-	tmpsSepEval.append(end - start)
-	methSepEval.append(v)
-	"""
+	memOptiLin.append(q)
+	tmpsOptiLin.append(end - start)
 	
 	#Etude avec Programmation Dynamique
 	tracemalloc.start()
