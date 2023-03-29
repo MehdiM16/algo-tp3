@@ -2,6 +2,7 @@ from Sommet import *
 from Arete import *
 from random import randint
 import sys
+from operator import attrgetter
 
 """
 def initialisation(n) :
@@ -67,10 +68,34 @@ def initialisation(n) :
     return arete
 
 
+def initialisation2(n,T) :
+    sommet = []
+    cpt = 0
+    a = (n*n)//2
+    sommet.append(Sommet(a,a,0))
+
+    for elt in T : #T est un tableau de tuple (x,y)
+        sommet.append(Sommet(elt[0],elt[1]))    
+    #sommet.append(Sommet(a,a,cpt+1)) # on rajoute un client fictif sur l'emplacement du centre de distribution pour pouvoir faire kruskal
+    for elt in sommet :
+        print(str(elt))
+    arete = []
+
+    tmp = len(sommet)
+    for i in range(tmp):
+        for j in range(i+1,tmp) :
+            arete.append(Arete(sommet[i],sommet[j]))
+
+    return arete
 
 
-def probleme2_dynamique(n) :
-    gr = initialisation(n)
+
+
+
+def probleme2_dynamique(n,T) :
+    #gr = initialisation(n)
+    gr = initialisation2(n,T)
+    print("taille = " + str(len(gr)) + " --------------------------------------------------------")
     #for elt in gr :
     #    print(str(elt))
     T = dict()
@@ -81,10 +106,12 @@ def probleme2_dynamique(n) :
     arete_min = gr[0]
     deja_present = [prec]
     true_suiv = 0
-
+    
+    """
     while len(res) < n :
         
         mini = sys.maxsize
+        arete_min = Arete(Sommet(0,0),Sommet(n*n*n,n*n*n))
 
         for i in range(len(gr)) : # on parcours le tableau des distance a partir du dernier point du chemin
             if (gr[i].client1.id == prec or gr[i].client2.id == prec) and gr[i].distance < mini :
@@ -96,20 +123,48 @@ def probleme2_dynamique(n) :
                     mini = gr[i].distance
                     arete_min = gr[i]
                     true_suiv = suiv
-        
+        #print("mini = " + str(mini) + " ++++++++++++++++++++++++++++++++++++")
         res.append(arete_min)
-        longueur += mini
+        longueur += arete_min.distance
         if arete_min.client1.id == prec :
             prec = arete_min.client2.id
         else :
             prec = arete_min.client1.id
         deja_present.append(true_suiv)
-    
+    """
+
+    while len(res) < n :
+        
+        mini = sys.maxsize
+        arete_min = Arete(Sommet(0,0),Sommet(n*n*n,n*n*n))
+
+        tmp = []
+
+        for i in range(len(gr)) : # on parcours le tableau des distance a partir du dernier point du chemin
+            if (gr[i].client1.id == prec or gr[i].client2.id == prec) and gr[i] not in res :
+                if gr[i].client1.id != prec :
+                    suiv = gr[i].client1.id
+                else :
+                    suiv = gr[i].client2.id
+                tmp.append(gr[i])
+        arete_min = min(tmp,key=attrgetter('distance'))
+        res.append(arete_min)
+        longueur += arete_min.distance
+        if arete_min.client1.id == prec :
+            prec = arete_min.client2.id
+        else :
+            prec = arete_min.client1.id
+        deja_present.append(true_suiv)
+
+
+
     # on a maintenant parcourus tout les client
     # il nous reste a ajouter le retour au centre de distribution
     arete_min = find_arete(gr,prec,0)
     longueur += arete_min.distance
     res.append(arete_min)
+
+    print("longueur = " + str(longueur) + " **************************************************")
 
     return longueur,res
 
@@ -121,10 +176,10 @@ def find_arete(arete,i,j) :
     return None
 
 
-x,y = probleme2_dynamique(4)
+#x,y = probleme2_dynamique(4)
 
-print("Dynamique :\nlongueur du plus cours chemin = " + str(x))
+#print("Dynamique :\nlongueur du plus cours chemin = " + str(x))
 
-for elt in y :
-    print(str(elt))
+#for elt in y :
+#    print(str(elt))
 

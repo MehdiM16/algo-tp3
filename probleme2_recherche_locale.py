@@ -11,13 +11,15 @@ def initialisation(n) :
 			T[i].append(0)
 	T[(n*n)//2][(n*n)//2] = 1 # l'emplacement du dépôt
 	cpt = 0
+	clients = []
 	while(cpt < n) :
 		i = random.randint(0,n*n-1)
 		j = random.randint(0,n*n-1)
 		if (T[i][j] == 0) :
 			T[i][j] = 2
 			cpt += 1
-	return T
+			clients.append((i,j))
+	return T, clients
 
 
 def permutableau(T, i, j) : # on permute comme dans le cours p55
@@ -33,8 +35,6 @@ def permutableau(T, i, j) : # on permute comme dans le cours p55
     for k in range(j, len(T)) :
         res[k] = T[k]
     return res
-    
-print (permutableau([1,2,3,4,5,1], 2, 4))
 
 def gen_circuit_aleatoire(n): 
 	T = [i for i in range(0,n+1)]
@@ -51,13 +51,16 @@ def gen_circuit_aleatoire(n):
 def distance(c1,c2) : # ci = (i,j)
     return abs(c2[0]-c1[0]) + abs(c2[1]-c1[1]) 
 
-def cout_parcours(n, T, parcours):
+def cout_parcours(n, T, clients, parcours):
 	sum = 0
 	for i in range(n+1):
-		sum += distance(parcours[i], parcours[i+1])
+		sum += distance(clients[parcours[i]-1], clients[parcours[i+1]-1])
+	depot = (n*n//2, n*n//2)
+	sum += distance(depot, clients[0])
+	sum += distance(clients[n-1], depot)
 	return sum
 
-def algo_compare(n, T, sol): # on compare sol avec les solutions "voisines"
+def algo_compare(n, T, clients, sol): # on compare sol avec les solutions "voisines"
 	print("-------------------------------------------")
 	print(sol)
 	print("-------------------------------------------")
@@ -65,16 +68,24 @@ def algo_compare(n, T, sol): # on compare sol avec les solutions "voisines"
 		for j in range(i+2, n):
 			sol2 = permutableau(T, i, j) # sol2 voisine de sol
 			print("-------------------------------------------")
+			print('i = ' + str(i))
+			print('j = ' + str(j))
 			print(sol2)
 			print("-------------------------------------------")
-			if cout_parcours(n, T, sol2) < cout_parcours(n, T, sol) :
-				return algo_compare(n, T, sol2)
+			if cout_parcours(n, T, clients, sol2) < cout_parcours(n, T, clients, sol) :
+				return algo_compare(n, T, clients, sol2)
+	print ("solution optimale :\n")
+	print(sol)
+	print("distance totale : \n")
+	print(cout_parcours(n, T, clients, sol))
 	return sol
 
 def algo(n):
-	T = initialisation(n)
-	return algo_compare(n, T, gen_circuit_aleatoire(n))
+	var = initialisation(n)
+	T = var[0]
+	clients = var[1]
+	return algo_compare(n, T, clients, gen_circuit_aleatoire(n))
 
 		
 
-print(algo(3))
+print(algo(4))

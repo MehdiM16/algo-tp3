@@ -35,15 +35,17 @@ memend = 0
 x = np.linspace(0, nbClientMax, nbClientMax)
 
 #On effectue nbObjetsMax tests
-for j in range(nbClientMax):
-	z = random.randint(1, poidsMax)
+for j in range(1,nbClientMax+1):
+	noeuds = []
+	for z in range(j):
+		noeuds.append((randint(0, j*j-1), randint(0, j*j-1)))
     
 	#Etude de vitesse d'exécution, de précision des résultats et de mémoire utilisée
 	
 	#Etude avec Approximation
 	tracemalloc.start()
 	start = time.perf_counter()
-	u, v = kruskal(nbClientMax)
+	u, v = kruskal(j,noeuds)
 	methApproximation.append(u)
 	end = time.perf_counter()
 	p, q = tracemalloc.get_traced_memory()
@@ -53,9 +55,6 @@ for j in range(nbClientMax):
 	#Etude avec optimisation linéaire
 	tracemalloc.start()
 	start = time.perf_counter()
-	noeuds = []
-	for z in range(nbClientMax):
-		noeuds.append((randint(0, 100), randint(0, 100)))
 	a, b = optiNbrInt(noeuds)
 	methOptiLin.append(optiLinDist(b))
 	end = time.perf_counter()
@@ -66,7 +65,7 @@ for j in range(nbClientMax):
 	#Etude avec Programmation Dynamique
 	tracemalloc.start()
 	start = time.perf_counter()
-	u, v = probleme2_dynamique(nbClientMax)
+	u, v = probleme2_dynamique(j,noeuds)
 	methDynam.append(u)
 	end = time.perf_counter()
 	p, q = tracemalloc.get_traced_memory()
