@@ -27,9 +27,37 @@ def initialisation(n) :
     return arete
 
 
+def initialisation2(n,T) :
+    sommet = []
+    cpt = 0
+    a = (n*n)//2
+    sommet.append(Sommet(a,a,0))
 
-def kruskal(n) : 
-    arete = initialisation(n)
+    i = 1
+    for elt in T : #T est un tableau de tuple (x,y)
+        sommet.append(Sommet(elt[0],elt[1],i))
+        i+=1
+    #sommet.append(Sommet(a,a,cpt+1)) # on rajoute un client fictif sur l'emplacement du centre de distribution pour pouvoir faire kruskal
+
+    arete = []
+
+    tmp = len(sommet)
+    for i in range(tmp):
+        for j in range(i+1,tmp) :
+            arete.append(Arete(sommet[i],sommet[j]))
+
+    return arete
+
+
+
+
+
+
+def kruskal(n,T) : 
+    #arete = initialisation(n)
+    arete = initialisation2(n,T)
+    for elt in arete :
+        print(str(elt))
     arete.sort(key=lambda article : article.distance)
     len_ar = len(arete)
     res = []
@@ -48,13 +76,20 @@ def kruskal(n) :
 
     # on a l'arbre couvrant minimum entre les clients
     # maintenant on relie le centre de distribution a chaque extremiter ce cette arbre
-
+    nb = 0
     for i in range(1,n+1) :
+        if nb == 2:
+            break
         if nb_iteration(res,i) == 1:
             chemin = find_arete(arete,0,i)
             if chemin is not None :
                 res.append(chemin) # au debut les arete sont stocker dans  l'ordre 0 -> 1 , 0 -> 2 etc
                 longueur += chemin.distance
+                nb += 1
+    print("reeeeeeeeeeeeeeeees =====")
+    for elt in res :
+        print(str(elt))
+    print("longueur = " + str(longueur) + " **************************************************")
 
     return longueur,res
 
@@ -75,11 +110,11 @@ def nb_iteration(aretes, sommet) :
 
 
 
-x,y = kruskal(4)
+#x,y = kruskal(4)
 
 
-print("Approximation\n longueur du plus cours chemin = " + str(x))
+#print("Approximation\n longueur du plus cours chemin = " + str(x))
 
-for elt in y :
-    print(str(elt))
+#for elt in y :
+#    print(str(elt))
 

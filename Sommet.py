@@ -1,6 +1,6 @@
 class Sommet :
 
-    def __init__(self,i,j,ref) :
+    def __init__(self,i,j,ref=0) :
         self.posx = i
         self.posy = j
         self.reference = ref
