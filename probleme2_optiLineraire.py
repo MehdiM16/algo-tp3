@@ -2,6 +2,7 @@ from pulp import *
 
 noeudsInit = [(2, 2), (1, 1), (3, 1), (4, 3), (2, 4), (0, 3)]
 n2 = [(1, 1), (4, 1), (5, 3), (1, 5), (0, 6), (4, 5)]
+n3 = [(1, 1), (4, 1), (5, 3), (1, 5), (0, 6), (4, 5), (2, 2), (1, 1), (3, 1), (4, 3), (2, 4), (0, 3), (6, 4), (2, 5), (5, 5), (3, 3), (5, 6), (8, 7), (2, 7), (6, 7), (8, 3)]
 
 def distManhattan(x, y):
 	i, j = x
@@ -67,7 +68,9 @@ def optiNbrInt(N):
 	fonction_obj = LpAffineExpression(e)
 	probleme.setObjective(fonction_obj)
 	
-	solver = PULP_CBC_CMD(timeLimit = 30, msg = True)
+	solver = PULP_CBC_CMD(timeLimit = 15, msg = True, threads=4)
+	#Solver_name = 'PULP_CBC_CMD'
+	#solver = getSolver(Solver_name, threads=4)
 	probleme.solve(solver = solver)
 	
 	[print("x_"+str(i)+"_"+str(j)+" = " + str(value(x[i][j]))) for i in range(n) for j in range(n) if i != j]
@@ -87,8 +90,8 @@ def optiLinDist(tab):
 		u, v = i
 		count+= distManhattan(u, v)
 	return count
-	
-a, b = optiNbrInt(noeudsInit)
-#print(b)
-print(optiLinDist(b))
+		
+#a, b = optiNbrInt(n3)
+##print(b)
+#print(optiLinDist(b))
 
