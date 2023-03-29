@@ -54,12 +54,13 @@ def optiNbrInt(N):
 	for j in range(n):
 		probleme+=(lpSum(x[i][j] for i in range(n) if i!=j) == 1)
 	
-	u = {i:LpVariable('u' + str(i)) for i in range(n) if i >= 2}
+	u = {i:LpVariable('u' + str(i)) for i in range(n)}
 	
 	#contraintes 3.21
-	for i, j in zip(range(n), range(n)):
-		if i >= 2 and i!=j:
-			probleme+= (u[i] - u[j] + (x[i][j]*(n-1)) <= (n-2))
+	for i in range(1, n):
+		for j in range(1, n):
+			if i!=j:
+				probleme+= (u[i] - u[j] + (x[i][j]*(n-1)) <= (n-2))
 	#probleme+= ((u[i] - u[j] + (x[i][j]*(n-1)) <= (n-2)) for i in range(n) for j in range(n) if i >= 2 and i!=j)
 	
 	e = lpSum(distManhattan(N[i], N[j]) * x[i][j] for i in range(n) for j in range(n) if i!=j)
@@ -69,7 +70,7 @@ def optiNbrInt(N):
 	solver = PULP_CBC_CMD(timeLimit = 30, msg = True)
 	probleme.solve(solver = solver)
 	
-	#[print("x_"+str(i)+"_"+str(j)+" = " + str(value(x[i][j]))) for i in range(n) for j in range(n) if i != j]
+	[print("x_"+str(i)+"_"+str(j)+" = " + str(value(x[i][j]))) for i in range(n) for j in range(n) if i != j]
 	dist = []
 	for i in range(n):
 		for j in range(n):
@@ -87,6 +88,7 @@ def optiLinDist(tab):
 		count+= distManhattan(u, v)
 	return count
 	
-a, b = optiNbrInt(n2)
+a, b = optiNbrInt(noeudsInit)
+#print(b)
 print(optiLinDist(b))
 
